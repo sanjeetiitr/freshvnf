@@ -1,0 +1,33 @@
+.user-list{
+padding: 5% !important;
+background-color: #f4f4f4
+
+}
+.main-view{
+border-radius: 10px;
+-webkit-box-shadow: 0px 0px 30px -11px rgba(0,0,0,0.59);
+-moz-box-shadow: 0px 0px 30px -11px rgba(0,0,0,0.59);
+box-shadow: 0px 0px 30px -11px rgba(0,0,0,0.59);
+position: fixed !important;
+margin: 3% !important   ;
+width: -webkit-fill-available !important;
+
+}
+
+
+#map {
+    background-color: #eae9e9;  
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.ant-list-item{
+    background-color: white;
+    border-radius: 4px;
+    padding: 3% !important;
+    margin-top: 2%;
+    margin-bottom: 2%
+}
+.ant-drawer-body{
+    padding: 10px !important;
+}
