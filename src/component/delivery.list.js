@@ -202,7 +202,7 @@ export class DeliveryComp extends Component {
                     lg={{ span: 24, offset: 0 }}
                     xl={{ span: 24, offset: 0 }}
                 >
-                    <h2 style={{ textAlign: 'center' }}>Delivery People list </h2>
+                    <h2 style={{ textAlign: 'center' }}>Delivery Boy list </h2>
                 </Col>
                 <Col
                     className='user-list'
