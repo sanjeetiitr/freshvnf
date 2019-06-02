@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { List, Avatar, Drawer, Row, Col } from 'antd';
-import { relative } from 'path';
 
 
 export class DeliveryComp extends Component {
@@ -11,7 +10,9 @@ export class DeliveryComp extends Component {
             data: [],
             fetching: true,
             visible: false,
-            userData: []
+            userData: [],
+            detailMap: null,
+            markers: []
         }
     }
 
@@ -57,6 +58,10 @@ export class DeliveryComp extends Component {
             center: data[0]
         });
 
+        this.setState({
+            detailMap: map
+        })
+
         let lineSymbol = {
             path: window.google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
             scale: 2,
@@ -95,9 +100,30 @@ export class DeliveryComp extends Component {
     }
 
 
+    addMarker = (location) => {
+        console.log('entered', location)
+        let markers = []
+        let marker = new window.google.maps.Marker({
+            position: location,
+            map: this.state.detailMap,
+            animation: window.google.maps.Animation.BOUNCE,
+        });
+
+        markers.push(marker);
+        this.setState({
+            markers: markers
+        })
+    }
+
+
+    removeMarker = () => {
+        this.state.markers.map(index => {
+            return index.setMap(null)
+        })
+    }
+
 
     userDirection(data) {
-        let len = data.length
         let directionsService = new window.google.maps.DirectionsService;
         let directionsDisplay = new window.maps.DirectionsRenderer;
         let map = new window.google.maps.Map(document.getElementById('map'), {
@@ -119,13 +145,14 @@ export class DeliveryComp extends Component {
     }
 
     onClose = () => {
+
         this.setState({
             visible: false,
+            detailMap: null,
         })
     }
 
     convertData(data) {
-        let delivery = []
         console.log('enterec')
         let result = Object.keys(data).map(function (key) {
             return key;
@@ -187,14 +214,14 @@ export class DeliveryComp extends Component {
                 >
                     <List
                         dataSource={this.state.data}
-                        renderItem={item => (
+                        renderItem={(item, i) => (
                             <List.Item key={item} actions={[<a onClick={() => this.showDrawer(item)}>More</a>]}>
                                 <List.Item.Meta
                                     avatar={
                                         <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                                     }
-                                    title={<p style={{color :"black"}}>{item}</p>}
-                                    description={<h5 style={{color :"#525051d9"}}>Last Active : <span>{()=> {}}</span></h5>}
+                                    title={<p style={{ color: "black" }}>{item}</p>}
+                                    description={<h5 style={{ color: "#525051d9" }}>Last Active : <span>May 28 2019</span></h5>}
                                 />
                             </List.Item>
                         )}
@@ -207,16 +234,39 @@ export class DeliveryComp extends Component {
                     onClose={this.onClose}
                     visible={this.state.visible}
                 >
-                    <Row id="detail_map2" style={{ height: '70vh', width: "100%" }}>
+                    <Row id="detail_map" >
                         <Col
-                            id="detail_map"
-                            sm={{ span: 22, offset: 1 }}
-                            mg={{ span: 22, offset: 1 }}
-                            lg={{ span: 22, offset: 1 }}
-                            xl={{ span: 22, offset: 1 }}
+                            id="detail_map2"
+                            style={{ height: '50vh', width: "100%" }}
+                            sm={{ span: 24, offset: 0 }}
+                            mg={{ span: 24, offset: 0 }}
+                            lg={{ span: 24, offset: 0 }}
+                            xl={{ span: 24, offset: 0 }}
                         >
                         </Col>
-                        <Col></Col>
+                        <Col
+                            sm={{ span: 24, offset: 0 }}
+                            mg={{ span: 24, offset: 0 }}
+                            lg={{ span: 24, offset: 0 }}
+                            xl={{ span: 24, offset: 0 }}
+                        >
+                            <h2 style={{ paddingTop: "1%", fontWeight: "600", margin: "0" }}>Delivery Boy Details<span></span></h2>
+                            <h4>Timeline Information tracked from user device<span><h6>Hover on time detail to see pointer on map</h6></span></h4>
+                            <Row style={{ height: '50vh', overflow: 'auto', backgroundColor: '#f4f4f4' }}>
+                                {this.state.userData.map(index => (
+                                    <Col
+                                        sm={{ span: 4, offset: 0 }}
+                                        mg={{ span: 4, offset: 0 }}
+                                        lg={{ span: 4, offset: 0 }}
+                                        xl={{ span: 4, offset: 0 }}
+                                    >   <div style={{ margin: '5%', fontSize: ".7rem" }}>
+                                            <p className='time-dtl' onMouseOver={() => this.addMarker({ lat: index.lat, lng: index.lng })} onMouseOut={() => this.removeMarker()} style={{ backgroundColor: 'white', padding: '0%' }}>{new Date(index.time).toGMTString()}</p>
+                                        </div>
+                                    </Col>
+
+                                ))}
+                            </Row>
+                        </Col>
                     </Row>
                 </Drawer>
             </div>

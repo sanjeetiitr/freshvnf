@@ -31,3 +31,14 @@ width: -webkit-fill-available !important;
 .ant-drawer-body{
     padding: 10px !important;
 }
+.time-dtl{
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.time-dtl:hover{
+    background-color: rgb(188, 216, 229) !important;
+    -webkit-box-shadow: 0px 0px 30px -11px rgba(0,0,0,0.59);
+    -moz-box-shadow: 0px 0px 30px -11px rgba(0,0,0,0.59);
+    box-shadow: 0px 0px 30px -11px rgba(0,0,0,0.59);
+}
